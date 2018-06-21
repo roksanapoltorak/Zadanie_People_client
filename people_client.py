@@ -92,6 +92,7 @@ class PeopleClient():
         response = requests.get(self.base_url, params={'first_name': person_name}).json()
 
         id_list = []
+
         for elem in response:
             for key, value in elem.items():
                 if key == 'id':
@@ -99,30 +100,27 @@ class PeopleClient():
 
         print('The number of people removed:', len(id_list))
 
+
+        new_response = ''
         for element in id_list:
             new_url = self.base_url + str(element)
-            new_response = requests.delete(new_url)
+            new_response = requests.delete(new_url).json()
 
-            return new_response.json()
-
+        return new_response
 
     def add_from_file(self, some_file):
 
-        lst = []
+        list_with_data = []
         with open(some_file, 'rt') as file:
             for line in file:
-                lst.append(line)
+                list_with_data.append(line)
 
-            for i in lst:
-                b = i.rstrip('\r\n').split(',')
-                self.add_person(b[0], b[1], b[2], b[3], b[4])
+            for element in list_with_data:
+                data = element.rstrip('\r\n').split(',')
+                self.add_person(data[0], data[1], data[2], data[3], data[4])
 
 if __name__ == '__main__':
     token = hashlib.md5('relayr'.encode('ascii')).hexdigest()
     client = PeopleClient('http://polakow.eu:3000/people/', token)
 
-    new_client = client.add_from_file("dane.csv")
-
-
-
-
+    delete_client = client.delete_by_name('Triss')
