@@ -94,9 +94,7 @@ class PeopleClient():
         id_list = []
 
         for elem in response:
-            for key, value in elem.items():
-                if key == 'id':
-                    id_list.append(value)
+            id_list.append(elem['id'])
 
         print('The number of people removed:', len(id_list))
 
@@ -122,3 +120,5 @@ class PeopleClient():
 if __name__ == '__main__':
     token = hashlib.md5('relayr'.encode('ascii')).hexdigest()
     client = PeopleClient('http://polakow.eu:3000/people/', token)
+
+    new = client.delete_by_name('Chris')
