@@ -122,5 +122,3 @@ class PeopleClient():
 if __name__ == '__main__':
     token = hashlib.md5('relayr'.encode('ascii')).hexdigest()
     client = PeopleClient('http://polakow.eu:3000/people/', token)
-
-    delete_client = client.delete_by_name('Triss')
